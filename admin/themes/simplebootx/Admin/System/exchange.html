@@ -1,0 +1,40 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('System/exchange')}">交易所设置</a></li>
+    </ul>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>交易所及币种</th>
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <foreach name="info" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.price}</td>
+                    <td><a href="{:U('System/exchange_edit',array('id'=>$vo['id']))}">编辑</a> | <a href="{:U('System/exchange_delete',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn">删除</a></td>
+                </tr>
+            </foreach>
+        </tbody>
+    </table>
+    <br/><br/><br/>
+    <div style="font-size:large">添加交易平台</div><br/>
+    <form class="form-horizontal js-ajax-form" method="post" action="{:U('System/exchange_add')}">
+        交易所及币种：<input type="text" name="name"><br/><br/>
+        价格：<input type="number" name="price"><br/><br/>
+        <div class="form-actions">
+            <button type="submit">{:L('SAVE')}</button>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

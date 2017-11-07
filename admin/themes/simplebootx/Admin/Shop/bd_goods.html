@@ -1,0 +1,62 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Shop/bd_goods')}">报单商品列表</a></li>
+		<li><a href="{:U('shop/bd_add')}">增加报单商品</a></li>
+	</ul>
+	<form action="{:U('Key/listorders')}" method="post">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">商品名称</th>
+				<th align="left">进价</th>
+				<th align="left">原价</th>
+				<th align="left">卖价</th>
+				<th align="left">库存</th>
+				<th align="left">销量</th>
+				<th align="left">是否销售</th>
+				<th align="left">最后修改时间</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<volist name="goods" id="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.buy_price}</td>
+					<td>{$vo.old_price}</td>
+					<td>{$vo.sale_price}</td>
+					<td>{$vo.num}</td>
+					<td><if condition="$vo['sale_volume'] eq 0">
+						0<else/>
+						{$vo.sale_volume}
+					</if>
+
+					</td>
+					<td>
+						<if condition="$vo['is_sale'] eq 0">
+						未上架|<a href="{:U('Shop/sale',array('id'=>$vo['id'],'status'=>$vo['is_sale']))}" class="js-ajax-dialog-btn" data-msg="是否上架">[上架]</a>
+						<else/>
+						已上架|<a href="{:U('Shop/sale',array('id'=>$vo['id'],'status'=>$vo['is_sale']))}" class="js-ajax-dialog-btn" data-msg="是否下架">[下架]</a>
+						</if>
+					</td>
+					<td>{$vo.add_time}</td>
+					<td>
+						<a href='{:U("shop/bd_edit",array("id"=>$vo["id"],"is_sale"=>$vo["is_sale"]))}'>{:L('EDIT')}</a> |
+						<a class="js-ajax-delete" href="{:U('shop/delete',array('id'=>$vo['id']))}">{:L('DELETE')}</a> |
+						<a href="{:U('shop/order_push',array('id'=>$vo['id']))}">订单导出</a>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$page}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

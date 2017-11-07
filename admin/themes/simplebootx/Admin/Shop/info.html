@@ -1,0 +1,98 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('shop/index')}">商品列表</a></li>
+        <!--<li><a href="{:U('shop/add')}">增加商品</a></li>-->
+        <li class="active"><a href="">商品详情</a></li>
+    </ul>
+    <form action="" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">商品名称：</th>
+                <td><input type="text" name="name" value="{$goods.name}"></td>
+            </tr>
+            <tr>
+                <th width="80">商品简介：</th>
+                <td><input type="text" name="title" value="{$goods.title}"></td>
+            </tr>
+            <th>图片</th>
+            <td>
+                <fieldset>
+                    <ul id="photos" class="pic-list unstyled">
+                        <li id="savedimage">
+                        <input type="text" name="photos_url" value="{$goods.img}" title="双击查看" style="width: 310px;height:48px;" ondblclick="image_priview(this.value);" class="input image-url-input">
+                        <a class="img_a" href="javascript:onClick=image_priview('{$goods.img}')"><img class="img_prew" src="{$goods.img}" style="height:50px;"></a>
+                        </li>
+                    </ul>
+                </fieldset>
+            </td>
+            </tr>
+            <tr>
+                <th width="80">进价：</th>
+                <td><input type="text" name="goods_price" value="{$goods.buy_price}">元</td>
+            </tr>
+            <tr>
+                <th width="80">原价：</th>
+                <td><input type="text" name="old_price" value="{$goods.old_price}">元</td>
+            </tr>
+            <tr>
+                <th width="80">卖价：</th>
+                <td><input type="text" name="sale_price" value="{$goods.sale_price}">元</td>
+            </tr>
+            <tr>
+                <th width="80">库存：</th>
+                <td><input type="text" name="num" value="{$goods.num}">元</td>
+            </tr>
+            <tr>
+                <th width="80">销量：</th>
+                <td><input type="text" name="sale_volume" value="{$goods.sale_volume}">元</td>
+            </tr>
+            <tr>
+                <th>内容:</th>
+                <td>
+                    {$goods.introduction}
+                </td>
+            </tr>
+
+        </table>
+        <div class="form-actions">
+            <a class="btn" href=”#” onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.DIMAUB;
+</script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".js-ajax-close-btn").on('click', function(e) {
+            e.preventDefault();
+            Wind.use("artDialog", function() {
+                art.dialog({
+                    id : "question",
+                    icon : "question",
+                    fixed : true,
+                    lock : true,
+                    background : "#CCCCCC",
+                    opacity : 0,
+                    content : "您确定需要关闭当前页面嘛？",
+                    ok : function() {
+                        setCookie("refersh_time", 1);
+                        window.close();
+                        return true;
+                    }
+                });
+            });
+        });
+        /////---------------------
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Order/return_goods')}">申请退款订单列表</a></li>
+		<li><a href="{:U('Order/return_yes')}">已完成退款订单列表</a></li>
+	</ul>
+
+	<div class="control-group">
+		<div class="controls">
+			<form action="{:U('Order/return_goods_search')}" method="get">
+				<input name="key" type="text" placeholder="请输入手机号或订单号" class="required"/>
+				<input type="hidden" name="g" value="Admin">
+				<input type="hidden" name="m" value="Order">
+				<input type="hidden" name="a" value="return_goods_search">
+				<input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+			</form>
+		</div>
+	</div>
+
+	<form action="{:U('Key/listorders')}" method="post">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">订单号</th>
+				<th align="left">购买产品</th>
+				<th align="left">购买人</th>
+				<th align="left">购买人手机号</th>
+				<th align="left">购买时间</th>
+				<th align="left">支付时间</th>
+				<th align="left">支付方式</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<volist name="list" id="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td><a href="{:U('order/info',array('order_sn'=>$vo['order_sn']))}">{$vo.order_sn}</a></td>
+					<td><a href="{:U('shop/info',array('id'=>$vo['goods_id']))}">{$vo.goods_name}</a></td>
+					<td>{$vo.user_nicename}</td>
+					<td>{$vo.mobile}</td>
+					<td>{$vo.add_time}</td>
+					<td>{$vo.pay_time|date="Y-m-d H:i:s",###}</td>
+					<td>
+						<if condition="$vo['pay_type'] eq xx">
+							对公转账
+							<elseif condition="$vo['pay_type'] eq yh"/>
+							永恒积分
+							<elseif condition="$vo['pay_type'] eq wx"/>
+							微信支付
+							<elseif condition="$vo['pay_type'] eq jf"/>
+							积分兑换
+							<elseif condition="$vo['pay_type'] eq mobao"/>
+							墨宝支付
+							<elseif condition="$vo['pay_type'] eq zfb"/>
+							支付宝支付
+							<else/>未知
+						</if>
+					</td>
+					<td>
+						<a href='{:U("order/do_return",array("id"=>$vo["id"]))}' class="js-ajax-dialog-btn">申请通过</a> |
+						<a href="{:U('order/no_return',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn">驳回申请</a>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

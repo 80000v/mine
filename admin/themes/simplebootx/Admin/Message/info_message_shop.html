@@ -1,0 +1,54 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <!--<li <eq name="st" value="1">class="active"</eq>><a href="{:U('Message/st1')}" title="产品发货，收货等问题">产品发货，收货等问题</a></li>-->
+        <!--<li <eq name="st" value="2">class="active"</eq>><a href="{:U('Message/st2')}" title="产品售后等问题">产品售后等问题</a></li>-->
+        <!--<li <eq name="st" value="3">class="active"</eq>><a href="{:U('Message/st3')}" title="永恒币充值等问题">永恒币充值等问题</a></li>-->
+        <!--<li <eq name="st" value="4">class="active"</eq>><a href="{:U('Message/st4')}" title="培训产品等问题">培训产品等问题</a></li>-->
+        <li class="active"><a href="#">留言详情</a></li>
+    </ul>
+    <form action="{:U('Message/info_reply_shop')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">真实姓名：</th>
+                <td>{$message.nicename}</td>
+            </tr>
+            <tr>
+                <th width="80">留言时间：</th>
+                <td>{$message.add_time}</td>
+            </tr>
+            <tr>
+                <th width="80">留言内容：</th>
+                <td>{$message.content}</td>
+            </tr>
+        </table>
+        <table class="table table-bordered">
+            <volist name="message2" id="vo">
+                <tr>
+                    <th width="80">
+                        <if condition="$vo['uid'] eq 0">
+                            管理员回复
+                            <else/>
+                            用户回复
+                        </if>
+                        ：</th>
+                    <td>{$vo.content}</td>
+                    <td style="float: right">{$vo.add_time}</td>
+                </tr>
+            </volist>
+        </table>
+        <div>
+            <textarea name="note" style="width: 500px;height: 150px;"></textarea>
+            <input type="hidden" name="id" value="{$message.id}"><br/>
+            <input style="margin-top: 20px;margin-left: 465px;" type="submit" value="提交">
+        </div>
+        <div class="form-actions">
+            <a class="btn" href="#" onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

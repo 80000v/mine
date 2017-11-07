@@ -1,0 +1,52 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Game/prize_list')}">奖品列表</a></li>
+        <li class="active"><a href="{:U('game/prize_setting')}">添加奖品</a></li>
+    </ul>
+    <form action="{:U('game/do_prize_setting')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">奖品名称：</th>
+                <td><input type="text" name="goods_name"/></td>
+            </tr>
+            <tr>
+                <th width="80">奖品介绍：</th>
+                <td><input type="text" name="goods_introduction"/></td>
+            </tr>
+        </table>
+        <div class="form-actions">
+            <input  class="btn" type="submit" value="确认" />
+            <a class="btn" href=”#” onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".js-ajax-close-btn").on('click', function(e) {
+            e.preventDefault();
+            Wind.use("artDialog", function() {
+                art.dialog({
+                    id : "question",
+                    icon : "question",
+                    fixed : true,
+                    lock : true,
+                    background : "#CCCCCC",
+                    opacity : 0,
+                    content : "您确定需要关闭当前页面嘛？",
+                    ok : function() {
+                        setCookie("refersh_time", 1);
+                        window.close();
+                        return true;
+                    }
+                });
+            });
+        });
+        /////---------------------
+    });
+</script>
+</body>
+</html>

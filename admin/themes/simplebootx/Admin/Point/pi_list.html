@@ -1,0 +1,73 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap js-check-wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:U('Point/pi_list')}">排单记录</a></li>
+			<li><a href="{:U('Point/pi_list_delete')}">已删除排单记录</a></li>
+		</ul>
+        <form class="well form-search" method="post" action="{:U('Point/pi_search')}">
+            手机号:
+            <input type="text" name="mobile" style="width: 200px;"  placeholder="请输入用户手机号">
+            <input type="submit" class="btn btn-primary" value="搜索" />
+            <a class="btn btn-danger" >清空</a>
+        </form>
+		<form class="well form-search" method="post" action="{:U('Point/pi_search')}">
+			选择日期：<input type="date" name="date" style="width: 200px;">
+			<input type="submit" class="btn btn-primary" value="搜索日期" />
+		</form>
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="50">今天排单总量</th>
+				<th width="50">搜索日期排单总量{$search_time}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{$total}</td>
+				<td>{$search_total}</td>
+			</tr>
+			</tbody>
+		</table>
+		<table class="table table-hover table-bordered">
+			<thead>
+				<tr>
+					<th width="50">ID</th>
+					<th width="50">姓名</th>
+					<th width="50">手机号</th>
+					<th width="50">金额</th>
+					<th width="50">排单时间</th>
+					<th width="50">排单状态</th>
+					<th width="50">出场时间</th>
+					<th width="50">{:L('EDIT')}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<foreach name="order" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.user_nicename}</td>
+					<td>{$vo.mobile}</td>
+					<td>{$vo.point}</td>
+					<td>{$vo.time|date='Y-m-d H:i:s',###}</td>
+					<td>
+					<if condition="$vo['status'] eq 1">
+						出场
+						<else />
+						排单中<a href="{:U('Point/pi_edit',array('id'=>$vo['id']))}">扣除排单金额</a>
+					</if>
+					</td>
+					<td>{$vo.out_time|date='Y-m-d H:i:s',###}</td>
+					<td>
+						<a href="{:U('Point/delete',array('id'=>$vo['id']))}">删除订单</a>
+					</td>
+				</tr>
+				</foreach>
+			</tbody>
+		</table>
+		<div class="pagination">{$show}</div>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

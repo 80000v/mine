@@ -1,0 +1,27 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('Point/score_send')}">电子币发放</a></li>
+        <li><a href="{:U('Point/score_sendlog')}">电子币发放记录</a></li>
+    </ul>
+    <form class="well form-search" method="post" action="{:U('Point/score_send')}">
+        手机号:
+        <input type="text" name="mobile" style="width: 200px;"  placeholder="请输入用户手机号">
+
+        <select multiple="multiple" name="type" size="2">
+            <option value="1">增加</option>
+            <option value="2">扣除</option>
+
+        </select>
+        <input type="text" name="num" style="width: 200px;"  placeholder="请输入电子币数量">
+        <input type="submit" class="btn btn-primary" value="确定" />
+        <!--<a class="btn btn-danger" href="{:U('Point/key')}">清空</a>-->
+    </form>
+
+    <div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

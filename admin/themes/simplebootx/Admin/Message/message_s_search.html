@@ -1,0 +1,58 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Message/message')}">财务留言</a></li>
+        <li><a href="{:U('Message/message_s')}">商城留言</a></li>
+        <li class="active"><a>商品评论</a></li>
+    </ul>
+
+    <form action="{:U('Message/message_s_search')}" method="get">
+        <input name="mobile" type="text" placeholder="请输入用户电话" class="required"/>
+        <input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px;">
+        <input type="hidden" name="g" value="Admin">
+        <input type="hidden" name="m" value="Message">
+        <input type="hidden" name="a" value="message_s_search">
+        <input type="hidden" name="type" value="{$t}">
+    </form>
+</div>
+<!--<form action="{:U('Message/message')}" method="post">-->
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="30">ID</th>
+            <th align="left">姓名</th>
+            <th align="left">手机号</th>
+            <th align="left">留言内容</th>
+            <th align="left">留言时间</th>
+            <th align="left">状态</th>
+            <th align="left">回复时间</th>
+            <th align="left">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="search" id="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.mobile}</td>
+                <td><a href="{:U('Message/info_message',array('id'=>$vo['id']))}">{$vo.content}</a></td>
+                <td>{$vo.add_time}</td>
+                <td>{$vo.status}</td>
+                <td>{$vo.reply_time}</td>
+                <td>
+                    <a href="{:U('Message/message_del_shop',array('id'=>$vo['id']))}">删除留言</a>|
+                    <a href="{:U('Message/info_message',array('id'=>$vo['id']))}">查看</a>
+
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+<!--</form>-->
+<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

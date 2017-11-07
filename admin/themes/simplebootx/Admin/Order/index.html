@@ -1,0 +1,113 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Order/index')}">订单列表</a></li>
+		<li><a href="{:U('Order/nopay')}">未支付订单列表</a></li>
+		<li><a href="{:U('Order/bd_index')}">报单列表</a></li>
+	</ul>
+
+	<div class="control-group">
+		<div class="controls">
+			<form action="{:U('Order/search')}" method="get">
+				<input name="key" type="text" placeholder="请输入手机号或订单号或商品名" class="required"/>
+				<input type="hidden" name="g" value="Admin">
+				<input type="hidden" name="m" value="Order">
+				<input type="hidden" name="a" value="search">
+				<input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+			</form>
+		</div>
+	</div>
+
+
+	<form action="{:U('Order/order_push')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+		<table class="table table-bordered">
+			<tr>
+				<th>名称：</th>
+				<td style="color:#f76000;font-size: 23px;padding: 5px 10px;">商城订单列表</td>
+				<!--<td><input  style="color:#f76000;font-size: 23px;padding: 5px 10px;" type="text" name="title" value="对公转账已支付订单"></td>-->
+			</tr>
+			<tr>
+				<th width="100">开始日期：</th>
+				<!--<input type="hidden" name="id" value="{$gi.id}">-->
+				<td><input type="date" name="bt" value=""> <strong>0:0:0</strong></td>
+			</tr>
+			<tr>
+				<th width="100">结束日期：</th>
+				<td><input type="date" name="et" value=""> <strong>23:59:59</strong></td>
+			</tr>
+			<tr>
+				<th width="100">订单状态：</th>
+				<td>
+					<select name="status">
+						<option value="5">全部</option>
+						<option value="1">待发货</option>
+						<option value="2">待收货</option>
+						<option value="3">待评价</option>
+						<option value="4">已评价</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<div class="form-actions">
+			<input type="submit" value="确定导出">
+		</div>
+	</form>
+
+	<form action="{:U('Key/listorders')}" method="post">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">商品名称</th>
+				<th align="left">订单号</th>
+				<th align="left">用户名</th>
+				<th align="left">手机号</th>
+				<th align="left">价格</th>
+				<th align="left">数量</th>
+				<th align="left">时间</th>
+				<th align="left">状态</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<volist name="order" id="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td><a href="{:U('shop/info',array('id'=>$vo['goods_id']))}">{$vo.goods_name}</a></td>
+					<td><a href="{:U('order/info',array('order_sn'=>$vo['order_sn']))}">{$vo.order_sn}</a></td>
+					<td>{$vo.user_nicename}</td>
+					<td>{$vo.mobile}</td>
+					<td>{$vo.goods_price}</td>
+					<td>{$vo.num}</td>
+				  	<td>{$vo.add_time}</td>
+					<td>
+						<if condition="$vo['order_status'] eq 0">
+							待付款
+							<elseif condition="$vo['order_status'] eq 1"/>
+							待发货
+							<elseif condition="$vo['order_status'] eq 2"/>
+							待收货
+							<elseif condition="$vo['order_status'] eq 3"/>
+							待评价
+							<elseif condition="$vo['order_status'] eq 4"/>
+							已评价
+						</if>
+					</td>
+					<td>
+						<a href='{:U("order/logistics",array("id"=>$vo["id"],"key"=>$vo["uid"]))}'>添加物流信息</a>|
+						<a href='{:U("order/edit",array("id"=>$vo["id"]))}'>{:L('EDIT')}</a> |
+						<a class="js-ajax-delete" href="{:U('order/delete',array('id'=>$vo['id']))}">{:L('DELETE')}</a> |
+						<a href="{:U('order/info',array('id'=>$vo['id']))}">查看</a>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

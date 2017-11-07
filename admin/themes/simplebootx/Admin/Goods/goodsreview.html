@@ -1,0 +1,53 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>商品评论</a></li>
+    </ul>
+
+    <form action="{:U('Shop/review_search')}" method="get">
+        <input name="uid" type="text" placeholder="请输入用户ID" class="required"/>
+        <input name="goods_id" type="text" placeholder="请输入商品ID" class="required"/>
+        <input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px;">
+        <input type="hidden" name="g" value="Admin">
+        <input type="hidden" name="m" value="Message">
+        <input type="hidden" name="a" value="search">
+        <input type="hidden" name="type" value="{$t}">
+    </form>
+</div>
+<form action="{:U('Shop/shopreview')}" method="post">
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="30">ID</th>
+            <th align="left">商品ID</th>
+            <th align="left">用户ID</th>
+            <th align="left">评论</th>
+            <th align="left">晒图</th>
+            <th align="left">时间</th>
+            <th align="left">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="review_list" id="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.goods_id}</td>
+                <td>{$vo.uid}</td>
+                <td>{$vo.contents}</td>
+                <td>{$vo.img}</td>
+                <td>{$vo.time|date='Y-m-d H:i:s',###}</td>
+                <td>
+                <a class="js-ajax-delete" href="{:U('goods/review_delete',array('id'=>$vo['id']))}">删除留言</a>
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</form>
+<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('User/user_send')}">发送短信</a></li>
+        <li><a href="{:U('User/user_send_all')}">给所有会员发送短信</a></li>
+    </ul>
+
+    <form action="{:U('User/user_send_do')}" method="post">
+        用户手机号：<input name="mobile" type="text" placeholder="请输入用户电话" class="required"/><br>
+        <!--<input name="note" type="text"  placeholder="请输入内容" class="required"/>-->
+        短信内容：<textarea name="note" placeholder="请输入内容"></textarea>
+        <input type="submit"  class="required" value="发送" style="height:30px;margin-bottom: 10px;">
+    </form>
+</div>
+<div class="pagination">{$page}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

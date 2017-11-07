@@ -1,0 +1,81 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>个人财务明细查询</a></li>
+    </ul>
+
+</div>
+<form action="{:U('User/user_financial')}" method="get">
+    <input name="mobile" type="text" placeholder="请输入用户电话" class="required"/>
+    <input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px;">
+    <input type="hidden" name="g" value="Admin">
+    <input type="hidden" name="m" value="User">
+    <input type="hidden" name="a" value="user_financial">
+    <input type="hidden" name="type" value="{$t}">
+</form>
+<table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+        <th align="left">个人历史排单总量</th>
+        <th align="left">当前排单总量</th>
+        <th align="left">推广钱包总量</th>
+        <th align="left">收益钱包总量</th>
+        <th align="left">个人提现总量</th>
+        <th align="left">个人消费钱包总量</th>
+
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr>
+        <td>{$list.pi_all}</td>
+        <td>{$list.sys_sy_all}</td>
+        <td>{$list.tc_all}</td>
+        <td>{$list.sy_all}</td>
+        <td>{$list.tx_all}</td>
+        <td>{$list.xf_all}</td>
+
+    </tr>
+
+    </tbody>
+</table>
+
+
+
+<table class="table table-hover table-bordered">
+    <thead>
+    <tr>
+        <th width="30">ID</th>
+        <th align="left">手机号</th>
+        <th align="left">姓名</th>
+        <th align="left">金额</th>
+        <th align="left">备注</th>
+        <th align="left">钱包类型</th>
+        <th align="left">时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    <foreach name="user_financial_list" item="vo">
+        <tr>
+            <td>{$vo.id}</td>
+            <td>{$vo.mobile}</td>
+            <td>{$vo.name}</td>
+            <td>{$vo.point}</td>
+            <td>{$vo.note}</td>
+            <td><eq name="vo.type" value="1">电子币</eq>
+                <eq name="vo.type" value="2">推广</eq>
+                <eq name="vo.type" value="3">本金钱包</eq>
+                <eq name="vo.type" value="4">收益钱包</eq>
+                <eq name="vo.type" value="5">消费钱包</eq></td>
+            <td>{$vo.time|date='Y-m-d H:i:s',###}</td>
+        </tr>
+    </foreach>
+    </tbody>
+</table>
+<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('order/index')}">订单列表</a></li>
+        <li class="active"><a href="">修改订单</a></li>
+    </ul>
+    <form action="{:U('order/do_edit')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">商品名称：</th>
+                <td><a href="{:U('shop/info',array('id'=>$order['goods_id']))}">{$order.goods_name}</a></td>
+            </tr>
+            <tr>
+                <th width="80">数量：</th>
+                <td>{$order.num}</td>
+            </tr>
+            <tr>
+                <th width="80">价格：</th>
+                <td>{$order.goods_price}</td>
+            </tr>
+            <tr>
+                <th width="80">下单时间：</th>
+                <td>{$order.add_time}</td>
+            </tr>
+            <tr>
+                <th width="80">收货地址：</th>
+                <td>
+                    <input type="text" name="province" value="{$order.province}"/>省-
+                    <input type="text" name="city" value="{$order.city}"/>市-
+                    <input type="text" name="area" value="{$order.area}"/>区-
+                    <input type="text" name="detail" value="{$order.detail}"/>详细地址
+
+                </td>
+            </tr>
+            <tr>
+                <th width="90">收货人姓名：</th>
+                <td>
+                    <input type="text" name="name" value="{$order.name}"/>
+                </td>
+            </tr>
+            <tr>
+                <th width="90">收货人电话：</th>
+                <td>
+                    <input type="text" name="order_mobile" value="{$order.order_mobile}"/>
+                </td>
+            </tr>
+            <tr>
+                <th width="80">物流公司：</th>
+                <td>{$order.logistics}</td>
+            </tr>
+            <tr>
+                <th width="80">物流单号：</th>
+                <td>{$order.logistics_sn}</td>
+            </tr>
+            <tr>
+                <th width="80">确认收货时间：</th>
+                <td>{$order.get_time}</td>
+            </tr>
+
+            <tr>
+                <th width="80">订单状态</th>
+                <td>
+                    <select name="order_status" id="order_status">
+                        <option value="0" <eq name="order.order_status" value="0">selected</eq>>未付款</option>
+                        <option value="1" <eq name="order.order_status" value="1">selected</eq>>待发货</option>
+                        <option value="2" <eq name="order.order_status" value="2">selected</eq>>待评价</option>
+                        <option value="3" <eq name="order.order_status" value="3">selected</eq>>已完成</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="id" value="{$order.id}" />
+        <div class="form-actions">
+            <input  class="btn" type="submit" value="确认" />
+            <a class="btn" href=”#” onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".js-ajax-close-btn").on('click', function(e) {
+            e.preventDefault();
+            Wind.use("artDialog", function() {
+                art.dialog({
+                    id : "question",
+                    icon : "question",
+                    fixed : true,
+                    lock : true,
+                    background : "#CCCCCC",
+                    opacity : 0,
+                    content : "您确定需要关闭当前页面嘛？",
+                    ok : function() {
+                        setCookie("refersh_time", 1);
+                        window.close();
+                        return true;
+                    }
+                });
+            });
+        });
+        /////---------------------
+    });
+</script>
+</body>
+</html>

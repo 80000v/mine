@@ -1,0 +1,43 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Point/management')}">管理费</a></li>
+	</ul>
+	<div class="control-group">
+		<div class="controls">
+			<div style="font-size: xx-large">
+				<a href="{:U('Point/sy_list')}">所获得收益钱包的管理费为:{$data.sy};</a><br><br><br>
+				<a href="{:U('Point/tx_list')}">所获得提现的管理费为:{$data.tx};</a><br><br><br>
+		</div>
+	</div>
+	<script>
+		$("#all_check").click(function(){
+			$('.cc').attr("checked","true");
+		});
+		$("#no_all_check").click(function(){
+			$('.cc').removeAttr("checked");
+		});
+		$("#submit_check").click(function(){
+			var ids='0';
+			for(var i=1;i<=20;i++){
+				if ($("input[name='c"+i+"']") .attr('checked')) {
+					ids=ids+','+$("input[name='c"+i+"']").val();
+				}
+			}
+			//alert(nc);
+			$.post("{:U('Point/yes_withdraw_s')}"
+					,{ids:ids}
+					, function(data) {
+						alert(data);
+						location.reload()
+					});
+		});
+
+	</script>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

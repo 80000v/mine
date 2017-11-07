@@ -1,0 +1,101 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('User/realname')}">实名认证列表</a></li>
+		<li class="active"><a href="{:U('User/no_realname')}">未通过审核列表</a></li>
+		<li><a href="{:U('User/yes_realname')}">已通过审核列表</a></li>
+	</ul>
+	<div class="control-group">
+		<div class="controls">
+			<form action="{:U('User/search')}" method="post">
+				<input name="key" type="text" placeholder="请输入手机号" class="required"/>
+				<input type="hidden" name="value" value="no_realname">
+				<input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+			</form>
+		</div>
+	</div>
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">手机号</th>
+				<th align="left">身份证图片</th>
+				<th align="left">真实姓名</th>
+				<th align="left">身份证号码</th>
+				<th align="left">申请时间</th>
+				<th align="left">处理时间</th>
+				<th align="left">处理状态</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<foreach name="realname_list" item="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.mobile}</td>
+					<!--<td><a href="{$vo.img}" target="_blank">点击查看图片</a> </td>-->
+					<td><a href="javascript:void(0)" onclick="read_img('{$vo.id}')">点击查看图片</a>
+						<div id="pic{$vo.id}" style="position: absolute;
+  								margin: 0;display: none;">
+							<img src="http://{$server.SERVER_ADDR}:{$server.SERVER_PORT}{$vo.img}" width="450px" title="{$vo.realname}的身份证，再次点击关闭图片">
+						</div>
+					</td>
+					<td>{$vo.realname}</td>
+					<td>{$vo.idcard}</td>
+					<td>{$vo.apply_time|date='Y-m-d H:i:s',###}</td>
+					<td>
+						<if condition="$vo['deal_time'] eq 0">
+							未知
+							<else/>
+							{$vo.deal_time|date='Y-m-d H:i:s',###}
+						</if>
+					</td>
+					<td>
+						<if condition="$vo['status'] eq 0">
+							未审核
+						<elseif condition="$vo['status'] eq 1"/>
+							已审核
+						<else/>
+						审核未通过
+						</if>
+					</td>
+					<td>
+						<a href="{:U('user/deal_realname',array('id'=>$vo['id'],'status'=>'1'))}" class="js-ajax-dialog-btn" data-msg="是否审核通过">通过</a>|
+						<span  onclick="openMore('{$vo.id}')" style=" color: #2fa4e7;cursor:pointer;">不通过 </span>
+
+						<div class="open{$vo.id}" id="open" style="display:none;">
+							<form method="post" action="{:U('Admin/user/deal')}">
+								<input type="radio" name="reason"  value="a">照片清晰度不够
+								<input type="radio" name="reason" value="b">身份证号码或者姓名填写错误
+								<input type="radio" name="reason" value="c">年龄不符
+								<input type="radio" name="reason" value="d">证件不符
+
+								<input type="hidden" name="id" value="{$vo.id}"><br/>
+								<input type="hidden" name="mobile" value="{$vo.mobile}"><br/>
+								<input type="submit" value="确定"> <span onclick="openMore('{$vo.id}')"
+																	   style="color: #2fa4e7;cursor:pointer;">取消</span>
+							</form>
+						</div>
+					</td>
+				</tr>
+				<!--<div id="pic{$vo.id}" style="display: none;">-->
+					<!--<img src="{$vo.img}" width="450px" title="{$vo.realname}的身份证，再次点击关闭图片">-->
+				<!--</div>-->
+			</foreach>
+			</tbody>
+		</table>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+	function read_img(id){
+		$("#pic"+id).toggle();
+	}
+	function openMore(i){
+		$(".open"+i).slideToggle("slow");
+	}
+</script>
+</body>
+</html>

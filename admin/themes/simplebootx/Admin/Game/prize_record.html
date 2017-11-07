@@ -1,0 +1,69 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Game/prize_record')}">游戏中奖列表</a></li>
+	</ul>
+
+	<div class="control-group">
+		<div class="controls">
+			<form action="{:U('Game/search')}" method="get">
+				<input name="key" type="text" placeholder="请输入手机号名" class="required"/>
+				<input type="hidden" name="g" value="Admin">
+				<input type="hidden" name="m" value="Game">
+				<input type="hidden" name="a" value="search">
+				<input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+			</form>
+		</div>
+	</div>
+
+	<form action="{:U('Key/listorders')}" method="post">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">姓名</th>
+				<th align="left">手机号</th>
+				<th align="left">中奖物品</th>
+				<th align="left">中奖时间</th>
+				<th align="left">游戏类型</th>
+				<th align="left">发货状态</th>
+				<th align="left">物流公司</th>
+				<th align="left">物流单号</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<volist name="list" id="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.user_name}</a></td>
+					<td>{$vo.mobile}</td>
+					<td>{$vo.goods_name}</td>
+					<td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+					<td>
+						<if condition="$vo['type'] eq 1">
+							欢乐砸金蛋
+							<elseif condition="$vo['type'] eq 2"/>
+							幸运大转盘
+						</if>
+					</td>
+					<td>{$vo.status}</td>
+				  	<td>{$vo.logistics}</td>
+					<td>{$vo.logistics_sn}</td>
+					<td>
+						<a href='{:U("game/edit",array("id"=>$vo["id"]))}'>{:L('EDIT')}</a> |
+						<a class="js-ajax-delete" href="{:U('game/delete',array('id'=>$vo['id']))}">{:L('DELETE')}</a> |
+						<a href="{:U('game/info',array('id'=>$vo['id']))}">查看</a>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

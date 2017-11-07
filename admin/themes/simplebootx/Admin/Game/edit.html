@@ -1,0 +1,65 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('game/prize_record')}">中奖列表</a></li>
+        <li class="active"><a href="">修改物流</a></li>
+    </ul>
+    <form action="{:U('game/do_edit')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">商品名称：</th>
+                <td>{$prize.goods_name}</a></td>
+            </tr>
+            <tr>
+                <th width="80">中奖时间：</th>
+                <td>{$prize.time|date="Y-m-d H:i:s",###}</td>
+            </tr>
+            <tr>
+                <th width="80">物流公司：</th>
+                <td>
+                    <input type="text" name="logistics" value="{$prize.logistics}"/>
+                </td>
+            </tr>
+            <tr>
+                <th width="80">物流单号：</th>
+                <td>
+                    <input type="text" name="logistics_sn" value="{$prize.logistics_sn}"/>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="id" value="{$prize.id}" />
+        <div class="form-actions">
+            <input  class="btn" type="submit" value="确认" />
+            <a class="btn" href=”#” onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".js-ajax-close-btn").on('click', function(e) {
+            e.preventDefault();
+            Wind.use("artDialog", function() {
+                art.dialog({
+                    id : "question",
+                    icon : "question",
+                    fixed : true,
+                    lock : true,
+                    background : "#CCCCCC",
+                    opacity : 0,
+                    content : "您确定需要关闭当前页面嘛？",
+                    ok : function() {
+                        setCookie("refersh_time", 1);
+                        window.close();
+                        return true;
+                    }
+                });
+            });
+        });
+        /////---------------------
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Point/withdraw')}">数交所申请列表</a></li>
+        <li class="active"><a href="{:U('Point/withdraw_qb')}">全币网申请列表</a></li>
+        <li><a href="{:U('Point/withdraw_yes')}">已通过提现列表</a></li>
+    </ul>
+
+    <div class="control-group">
+        <div class="controls">
+            <form action="{:U('Point/withdraw_qb')}" method="get">
+                <input name="key" type="text" placeholder="请输入手机号" class="required"/>
+                <input type="hidden" name="g" value="Admin">
+                <input type="hidden" name="m" value="Point">
+                <input type="hidden" name="a" value="withdraw_qb">
+                <input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+            </form>
+        </div>
+    </div>
+    <form action="{:U('Point/s_order_push_qb')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th>名称：</th>
+                <td style="color:#f76000;font-size: 23px;padding: 5px 10px;">全币网提现审核列表</td>
+                <!--<td><input  style="color:#f76000;font-size: 23px;padding: 5px 10px;" type="text" name="title" value="对公转账已支付订单"></td>-->
+            </tr>
+            <tr>
+                <th width="100">开始日期：</th>
+                <!--<input type="hidden" name="id" value="{$gi.id}">-->
+                <input type="hidden" name="type" value="xx">
+                <td><input type="date" name="bt" value=""> <strong>0:0:0</strong></td>
+            </tr>
+            <tr>
+                <th width="100">结束日期：</th>
+                <td><input type="date" name="et" value=""> <strong>23:59:59</strong></td>
+            </tr>
+            <tr>
+                <th width="100">钱包类型：</th>
+                <td>
+                    <select name="type">
+                        <option value="2">分享钱包</option>
+                        <option value="3">本金钱包</option>
+                        <option value="4">收益钱包</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div class="form-actions">
+            <input type="submit" value="确定导出">
+        </div>
+    </form>
+    <form action="{:U('Key/listorders')}" method="post">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th align="left">ID</th>
+                <th align="left">姓名</th>
+                <th align="left">手机号</th>
+                <th align="left">消耗积分</th>
+                <th align="left">兑换数量</th>
+                <th align="left">提现钱包类型</th>
+                <th align="left">手续费</th>
+                <th align="left">交易所</th>
+                <th align="left">价格</th>
+                <th align="left">申请时间</th>
+                <th align="left">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <volist name="list" id="vo" key="k">
+                <tr>
+                    <td><input type="checkbox" class="cc" name="c{$k}" value="{$vo.id}"></td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.user_nicename}</td>
+                    <td>{$vo.mobile}</td>
+                    <td>{$vo.point}</td>
+                    <td>{$vo.money}</td>
+                    <td>
+                        <if condition="$vo.type eq 2"> 分享钱包
+                            <elseif condition="$vo.type eq 3"/>本金钱包
+                            <elseif condition="$vo.type eq 4"/>收益钱包
+                            <else /> 未知
+                        </if>
+                    </td>
+                    <td>{$vo.poundage}</td>
+                    <td>{:exchange_name($vo['exchange_id'])}</td>
+                    <td>{$vo.mx}</td>
+                    <td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+                    <td>
+                        <a href='{:U("Point/yes_withdraw",array("id"=>$vo["id"]))}'>申请通过</a> |
+                        <a href="{:U('Point/no_withdraw',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn">驳回申请</a>
+                    </td>
+                </tr>
+            </volist>
+            </tbody>
+        </table>
+    </form>
+    <div> <button id="all_check">全选</button>
+        <button id="no_all_check">全不选</button>
+        <button id="submit_check">确认审核通过</button>
+    </div><br/>
+    <form action="{:U('Point/withdraw_time')}" method="post">
+        钱包类型：<select name="type">
+        <option value="2">分享钱包</option>
+        <option value="3">本金钱包</option>
+        <option value="4">收益钱包</option>
+    </select><br/>
+        开始时间：<input type="date" name="st_time"> 0:0:0<br/>
+                  <input type="hidden" name="exchange_id" value="2">
+        结束时间：<input type="date" name="ed_time"> 23:59:59<br/>
+        <input type="submit" value="确认通过">
+    </form>
+    <script>
+        $("#all_check").click(function(){
+            $('.cc').attr("checked","true");
+        });
+        $("#no_all_check").click(function(){
+            $('.cc').removeAttr("checked");
+        });
+        $("#submit_check").click(function(){
+            var ids='0';
+            for(var i=1;i<=20;i++){
+                if ($("input[name='c"+i+"']") .attr('checked')) {
+                    ids=ids+','+$("input[name='c"+i+"']").val();
+                }
+            }
+            //alert(nc);
+            $.post("{:U('Point/yes_withdraw_s')}"
+                ,{ids:ids}
+                , function(data) {
+                    alert(data);
+                    location.reload()
+                });
+        });
+
+    </script>
+    <div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

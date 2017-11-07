@@ -1,0 +1,62 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Order/pay_xx')}">线下支付订单列表</a></li>
+		<li><a href="{:U('Order/pay_xx_yes')}">线下支付已完成订单列表</a></li>
+		<li><a href="{:U('Order/pay_online')}">在线支付已完成订单列表</a></li>
+	</ul>
+
+	<div class="control-group">
+		<div class="controls">
+			<form action="{:U('Order/pay_xx_search')}" method="get">
+				<input name="key" type="text" placeholder="请输入手机号或订单号" class="required"/>
+				<input type="hidden" name="g" value="Admin">
+				<input type="hidden" name="m" value="Order">
+				<input type="hidden" name="a" value="pay_xx_search">
+				<input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px ">
+			</form>
+		</div>
+	</div>
+
+	<form action="{:U('Key/listorders')}" method="post">
+		<table class="table table-hover table-bordered">
+			<thead>
+			<tr>
+				<th width="30">ID</th>
+				<th align="left">充值账户</th>
+				<th align="left">充值手机号</th>
+				<th align="left">转账人姓名</th>
+				<th align="left">转账银行</th>
+				<th align="left">转账卡号</th>
+				<th align="left">转账金额</th>
+				<th align="left">提交时间（非转账时间）</th>
+				<th align="left">操作</th>
+			</tr>
+			</thead>
+			<tbody>
+			<volist name="order" id="vo">
+				<tr>
+					<td>{$vo.id}</td>
+					<td>{$vo.user_nicename}</td>
+					<td>{$vo.mobile}</td>
+					<td>{$vo.name}</td>
+					<td>{$vo.bank_name}</td>
+					<td>{$vo.bank_number}</td>
+					<td>{$vo.money}元</td>
+					<td>{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+					<td>
+						<a href='{:U("order/yes_bank",array("id"=>$vo["id"]))}' class="js-ajax-dialog-btn">已收款，确认订单</a> |
+						<a href="{:U('order/no_bank',array('id'=>$vo['id']))}" class="js-ajax-dialog-btn">不通过</a>
+					</td>
+				</tr>
+			</volist>
+			</tbody>
+		</table>
+	</form>
+	<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

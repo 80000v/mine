@@ -1,0 +1,37 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('Point/score_update')}">赠送钱包的扣除</a></li>
+    </ul>
+    <form class="well form-search" method="post" action="{:U('Point/score_update_do')}">
+        手机号:
+        <input type="text" name="mobile" style="width: 200px;"  placeholder="请输入用户手机号">
+        <br/><br/>
+        类 型：
+        <select multiple="multiple" name="money_type" size="3">
+            <option value="2">分享钱包</option>
+            <option value="3">赠送钱包</option>
+            <option value="4">收益钱包</option>
+
+        </select>
+        <br/><br/>
+        操 作：
+        <select multiple="multiple" name="type" size="2">
+            <option value="1">增加</option>
+            <option value="2">扣除</option>
+
+        </select>
+        <br/><br/>
+        数 量：
+        <input type="text" name="num" style="width: 200px;"  placeholder="请输入数量"><br/><br/>
+        <input type="submit" class="btn btn-primary" value="确定" />
+        <!--<a class="btn btn-danger" href="{:U('Point/key')}">清空</a>-->
+    </form>
+
+    <div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

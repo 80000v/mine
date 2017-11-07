@@ -1,0 +1,70 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('Message/message')}">财务留言</a></li>
+        <li class="active"><a href="{:U('Message/message_s')}">商城留言</a></li>
+        <!--<li <eq name="t" value="1">class="active"</eq>><a href="{:U('Message/t1')}">其他问题</a></li>-->
+        <!--<li <eq name="t" value="2">class="active"</eq>><a href="{:U('Message/t2')}" title="注册与实名认证，帐号解封等问题">帐号问题</a></li>-->
+        <!--<li <eq name="t" value="3">class="active"</eq>><a href="{:U('Message/t3')}" title="打款，收款错误等紧急财务问题">资金问题</a></li>-->
+        <!--<li <eq name="t" value="5">class="active"</eq>><a href="{:U('Message/t5')}" title="匹配，时间，投诉等常规操作问题">操作问题</a></li>-->
+    </ul>
+
+    <div class="wrap js-check-wrap">
+        <ul class="nav nav-tabs">
+            <li <eq name="d" value="">class="active"</eq>><a href="{$u}">会员留言列表</a></li>
+            <li <eq name="d" value="1">class="active"</eq>><a href="{$u}&d=1">已处理留言列表</a></li>
+            <li <eq name="d" value="2">class="active"</eq>><a href="{$u}&d=2">未处理留言列表</a></li>
+        </ul>
+    </div>
+    <div>
+
+    <form action="{:U('Message/message_s_search')}" method="get">
+        <input name="mobile" type="text" placeholder="请输入用户电话" class="required"/>
+        <input type="submit"  class="required" value="提交" style="height:30px;margin-bottom: 10px;">
+        <input type="hidden" name="g" value="Admin">
+        <input type="hidden" name="m" value="Message">
+        <input type="hidden" name="a" value="message_s_search">
+        <input type="hidden" name="type" value="{$t}">
+    </form>
+</div>
+<form action="{:U('Message/message_s')}" method="post">
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th width="30">ID</th>
+            <th align="left">用户姓名</th>
+            <th align="left">手机号</th>
+            <th align="left">留言内容</th>
+            <th align="left">留言时间</th>
+            <th align="left">状态</th>
+            <th align="left">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <volist name="message_list" id="vo">
+            <tr>
+                <td>{$vo.id}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.mobile}</td>
+                <td><a href="{:U('Message/info_message',array('id'=>$vo['id']))}">{$vo.content}</a></td>
+                <td>{$vo.add_time}</td>
+                <td><eq name="vo.status" value="0">未处理</eq>
+                    <eq name="vo.status" value="1">已处理</eq>
+                </td>
+                <td>
+                    <a class="js-ajax-delete" href="{:U('Message/message_del',array('id'=>$vo['id']))}">删除留言</a>|
+                    <a href="{:U('Message/info_message',array('id'=>$vo['id']))}">查看</a>
+
+                </td>
+            </tr>
+        </volist>
+        </tbody>
+    </table>
+</form>
+<div class="pagination">{$show}</div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

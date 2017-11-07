@@ -1,0 +1,96 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('order/index')}">订单列表</a></li>
+        <li class="active"><a href="">添加物流信息</a></li>
+    </ul>
+    <form action="{:U('order/do_logistics')}" method="post" class="form-horizontal js-ajax-forms" enctype="multipart/form-data">
+        <table class="table table-bordered">
+            <tr>
+                <th width="80">订单编号：</th>
+                <td>{$order.order_sn}</td>
+            </tr>
+            <tr>
+                <th width="80">商品名称：</th>
+                <td><a href="{:U('shop/info',array('id'=>$order['goods_id']))}">{$order.goods_name}</a></td>
+            </tr>
+            <tr>
+                <th width="80">数量：</th>
+                <td>{$order.num}</td>
+            </tr>
+            <tr>
+                <th width="80">价格：</th>
+                <td>{$order.goods_price}</td>
+            </tr>
+            <tr>
+                <th width="80">下单时间：</th>
+                <td>{$order.add_time}</td>
+            </tr>
+            <tr>
+                <th width="80">收货地址：</th>
+                <td>
+                    {$order.province}省-
+                    {$order.city}市-
+                    {$order.area}区-
+                    {$order.detail}详细地址
+
+                </td>
+            </tr>
+            <tr>
+                <th width="90">收货人姓名：</th>
+                <td><empty name="order.name"><a href="{:U('Order/logistics_readdress',array('id'=>$order['id']))}">更新信息</a>（将该用户默认收货地址填入） <else/>{$order.name}</empty></td>
+            </tr>
+            <tr>
+                <th width="90">收货人电话：</th>
+                <td>{$order.order_mobile}</td>
+            </tr>
+            <tr>
+                <th width="80">物流公司：</th>
+                <td>
+                    <input type="text" name="logistics" value="{$order.logistics}"/>
+                </td>
+            </tr>
+            <tr>
+                <th width="80">物流单号：</th>
+                <td>
+                    <input type="text" name="logistics_sn" value="{$order.logistics_sn}"/>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="id" value="{$order.id}" />
+        <input type="hidden" name="key" value="{$key}" />
+        <div class="form-actions">
+            <input  class="btn" type="submit" value="确认" />
+            <a class="btn" href=”#” onClick="javascript :history.back(-1);">返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".js-ajax-close-btn").on('click', function(e) {
+            e.preventDefault();
+            Wind.use("artDialog", function() {
+                art.dialog({
+                    id : "question",
+                    icon : "question",
+                    fixed : true,
+                    lock : true,
+                    background : "#CCCCCC",
+                    opacity : 0,
+                    content : "您确定需要关闭当前页面嘛？",
+                    ok : function() {
+                        setCookie("refersh_time", 1);
+                        window.close();
+                        return true;
+                    }
+                });
+            });
+        });
+        /////---------------------
+    });
+</script>
+</body>
+</html>

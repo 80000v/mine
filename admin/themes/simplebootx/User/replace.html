@@ -1,0 +1,37 @@
+<admintpl file="header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('Indexadmin/replace')}">更改推荐关系</a></li>
+		</ul>
+		<form method="post" class="form-horizontal js-ajax-form" action="{:U('Indexadmin/do_replace')}">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label">领导人姓名：</label>
+					<div class="controls">
+						<input type="text" name="leader_name">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">领导人手机号：</label>
+					<div class="controls">
+						<input type="text" name="leader_mobile">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label">直推手机号：</label>
+					<div class="controls">
+						<input type="text" name="mobile">
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-actions">
+				<button type="submit" >确定</button>
+				<a class="btn" href="javascript:history.back(-1);">{:L('BACK')}</a>
+			</div>
+		</form>
+	</div>
+	<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

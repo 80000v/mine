@@ -1,0 +1,20 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('System/exchange')}">交易所设置</a></li>
+    </ul>
+    <div style="font-size:large">编辑交易平台</div><br/>
+    <form class="form-horizontal js-ajax-form" method="post" action="{:U('System/exchange_edit_post')}">
+        交易所及币种：<input type="text" name="name" value="{$info.name}"><br/><br/>
+        价格：<input type="number" name="price" value="{$info.price}"><br/><br/>
+        <input type="hidden"  name="id" value="{$info.id}">
+        <div class="form-actions">
+            <button type="submit">{:L('SAVE')}</button>
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>

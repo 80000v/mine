@@ -1,0 +1,148 @@
+<admintpl file="header" />
+</head>
+<body>
+<script src="__PUBLIC__/js/echarts/echarts.min.js"></script>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>财务总览</a></li>
+    </ul>
+
+</div>
+<form action="{:U('User/financial')}" method="post">
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th align="left">金币总量</th>
+            <th align="left" bgcolor="#7fffd4">推广钱包总量</th>
+            <th align="left">消费钱包总量</th>
+            <th align="left" bgcolor="#7fffd4">收益钱包总量</th>
+            <th align="left">漫香积分总量</th>
+            <th align="left" bgcolor="#7fffd4">消费积分购买总量</th>
+            <th align="left">报单中心购买总量</th>
+            <th align="left" bgcolor="#7fffd4">累计排单总量</th>
+            <th align="left">推广钱包提现总量</th>
+            <th align="left" bgcolor="#7fffd4">排单收益总量</th>
+            <th align="left">排单收益提现总量</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>{$list.score}</td>
+                <td bgcolor="#7fffd4">{$list.coin}</td>
+                <td>{$list.cc}</td>
+                <td bgcolor="#7fffd4">{$list.temp_score}</td>
+                <td>{$list.play_score}</td>
+                <td bgcolor="#7fffd4">{$list.cc_buy}</td>
+                <td>{$list.score_buy}</td>
+                <td bgcolor="#7fffd4">{$list.pi_all}</td>
+                <td>{$list.tuiguang_tx}</td>
+                <td bgcolor="#7fffd4">{$list.gains_all}</td>
+                <td>{$list.gains_all_tx}</td>
+
+            </tr>
+
+        </tbody>
+    </table>
+</form>
+
+<div class="wrap js-check-wrap">
+    <div style="margin:0 auto;width: 750px;">
+        <select name="i" id="i">
+            <option value="bdzxgml">报单中心购买量</option>
+            <option value="pdl">排单量</option>
+            <option value="tgtx">推广钱包提现量</option>
+            <option value="pdsy">排单收益量</option>
+            <option value="pdsytx">排单收益提现量</option>
+
+        </select>
+        <input type="date" name="b_date" id="b_date"/>
+        <input type="date" name="e_date" id="e_date"/>
+        <input type="submit" id="load_info" />
+    </div>
+    <div id="main" style="width: 100%;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            color: ['#db6818'],
+            title: {
+                text: '数据统计'
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            tooltip : {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            legend: {
+                data:['']
+            },
+            xAxis: {
+                data:[]
+            },
+            yAxis: {},
+            series: [{
+                //name: '',
+                type: 'bar',
+                barWidth: '60%',
+                data: []
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+        $('#load_info').click(function () {
+            var post_i=$('#i').val();
+            var post_e_date=$('#e_date').val();
+            var post_b_date=$('#b_date').val();
+            $.post("{:U('user/financial_more')}",
+                {
+                    i:post_i,
+                    e_date:post_e_date,
+                    b_date:post_b_date
+                },
+                function(data,status){
+                    if(data.error==1){
+                        alert('暂无数据');
+                        return;
+                    }
+                    myChart.setOption({
+                        title: {
+                            text: data.t
+                        },
+                        xAxis: {
+                            data: data.x
+                        },
+                        series: [{
+                            // 根据名字对应到相应的系列
+                            //name: data.t,
+                            data: data.y
+                        }]
+                    });
+
+
+                });
+        });
+
+    </script>
+</div>
+
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>
