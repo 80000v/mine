@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=500,height=500,minimum-scale=1.0,maximum-scale=1.0"/>
+    <title>在线支付</title>
+    <style type="text/css">
+        .v{
+            line-height: 100%;
+        }
+        .s{
+            /*margin: 160px auto;*/
+            /*width: 180px;*/
+            font-size: 26px;
+            color: #00b4ff;
+            position: fixed;
+            top: 50px;
+            left: 30%;
+        }
+        .e{
+            /*margin: 160px auto;*/
+            /*width: 180px;*/
+            font-size: 26px;
+            color: #f00;
+            position: fixed;
+            top: 50px;
+            left: 30%;
+        }
+        .pi{
+            position: fixed;
+            top: 50px;
+            left: 20%;
+        }
+        .pi img{
+        }
+        h5 span{
+            color: #F00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="v">
+    <if condition=" $error eq 1 ">
+        <div class="e">系统繁忙，请稍后再试。</div>
+    <elseif condition=" $error eq 2 "/>
+        <div class="s">充值成功！</div>
+    <else />
+        <!--<div class="sk-spinner sk-spinner-pulse">
+
+        </div>-->
+        <div class="pi">
+            <h1>{$pay_title}</h1>
+            <img  src="{$pay_img}" />
+            <h5>支付金额：<span>{$money}</span></h5>
+            <script>
+
+                /* 封装ajax函数
+                 * @param {string}opt.type http连接的方式，包括POST和GET两种方式
+                 * @param {string}opt.url 发送请求的url
+                 * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
+                 * @param {object}opt.data 发送的参数，格式为对象类型
+                 * @param {function}opt.success ajax发送并接收成功调用的回调函数
+                 */
+                function ajax(opt) {
+                    opt = opt || {};
+                    opt.method = opt.method.toUpperCase() || 'POST';
+                    opt.url = opt.url || '';
+                    opt.async = opt.async || true;
+                    opt.data = opt.data || null;
+                    opt.success = opt.success || function () {};
+                    var xmlHttp = null;
+                    if (XMLHttpRequest) {
+                        xmlHttp = new XMLHttpRequest();
+                    }
+                    else {
+                        xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+                    }var params = [];
+                    for (var key in opt.data){
+                        params.push(key + '=' + opt.data[key]);
+                    }
+                    var postData = params.join('&');
+                    if (opt.method.toUpperCase() === 'POST') {
+                        xmlHttp.open(opt.method, opt.url, opt.async);
+                        xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+                        xmlHttp.send(postData);
+                    }
+                    else if (opt.method.toUpperCase() === 'GET') {
+                        xmlHttp.open(opt.method, opt.url + '?' + postData, opt.async);
+                        xmlHttp.send(null);
+                    }
+                    xmlHttp.onreadystatechange = function () {
+                        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                            opt.success(xmlHttp.responseText);
+                        }
+                    };
+                }
+
+
+
+               var fn =function () {
+                   ajax({
+                       method: 'POST',
+                       url: "{:U('Pay/is_ok',array('id'=>$order_id))}",
+                       data: {},
+                       success: function (response) {
+                           if(response=='1'){
+                               window.location.href="{:U('Pay/thePay',array('status'=>'2'))}";
+                           }
+                       }
+                   });
+               }
+               setInterval(fn,3000);
+            </script>
+        </div>
+
+    </if>
+</div>
+
+</body>
+</html>

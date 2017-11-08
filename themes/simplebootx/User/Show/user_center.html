@@ -1,0 +1,73 @@
+<admintpl file="header" />
+</head>
+<body>
+<h2>{$name},您好，已兑换的分享钱包为：{$fx},已兑换的收益钱包为：{$sy},已兑换的赠送钱包为：{$zs}</h2><a href="{:U('show/outlogin')}">退出登录</a>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active">排单记录</a></li>
+    </ul>
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>排单时间</th>
+                <th>排单积分</th>
+                <th>状态</th>
+                <th>出场时间</th>
+                <th>出场收益积分</th>
+            </tr>
+        </thead>
+        <tbody>
+            <foreach name="info" item="vo">
+                <tr>
+                    <td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.point}</td>
+                    <td>
+                        <eq name="vo.status" value="0">未出场</eq>
+                        <eq name="vo.status" value="1">已出场</eq>
+                    </td>
+                    <td>{$vo.out_time1}</td>
+                    <td>{$vo.out_point}</td>
+                </tr>
+            </foreach>
+        </tbody>
+    </table>
+    <br/><br/><br/>
+    <div style="font-size:large">添加招商银行卡信息：</div><br/>
+    <form class="form-horizontal js-ajax-form" method="post" action="{:U('Show/bank_add')}">
+        持卡人姓名：<input type="text" name="name" placeholder="请填写持卡人姓名"><br/><br/>
+        银行卡号码：<input type="text" name="bank_num" placeholder="请填写招商银行卡号"><br/><br/>
+        开户行地址：<input type="text" name="address" placeholder="请填写开户行地址"><br/><br/>
+        <input type="hidden" name="uid" value="{$uid}">
+        <div class="form-actions">
+            <button type="submit">{:L('SAVE')}</button>
+        </div>
+    </form>
+
+    <if condition="$bank eq 8"> <div></div>
+        <else /> <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>持卡人姓名</th>
+                <th>银行卡号码</th>
+                <th>开户行地址</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$bank.name}</td>
+                <td>{$bank.num}</td>
+                <td>{$bank.address}</td>
+                <td>{$bank.time|date="Y-m-d H:i:s",###}</td>
+                <td><a href="{:U('Show/bank_delete',array('uid'=>$vo['uid']))}" class="js-ajax-dialog-btn">删除</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </if>
+
+
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+</body>
+</html>
